@@ -4,7 +4,21 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "format": "prettier --write 'resources/**/*.{blade.php,js,css}'",
+        "format:check": "prettier --check 'resources/**/*.{blade.php,js,css}'",
+        "prepare": "husky"
+    },
+    "lint-staged": {
+        "**/*.php": [
+            "./vendor/bin/pint"
+        ],
+        "resources/**/*.blade.php": [
+            "prettier --write"
+        ],
+        "resources/**/*.{js,css}": [
+            "prettier --write"
+        ]
     },
     "dependencies": {
         "@tailwindcss/vite": "^4.1.11",
@@ -19,5 +33,12 @@
         "@rollup/rollup-linux-x64-gnu": "4.9.5",
         "@tailwindcss/oxide-linux-x64-gnu": "^4.0.1",
         "lightningcss-linux-x64-gnu": "^1.29.1"
+    },
+    "devDependencies": {
+        "@shufo/prettier-plugin-blade": "^1.16.1",
+        "husky": "^9.1.7",
+        "lint-staged": "^16.2.7",
+        "prettier": "^3.7.4",
+        "prettier-plugin-tailwindcss": "^0.7.2"
     }
 }
