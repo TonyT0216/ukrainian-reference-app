@@ -18,7 +18,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.4' # Laravel 12 requires 8.2+; adjust if needed
+                  php-version: '8.4'
                   extensions: mbstring, pdo_sqlite, zip, bcmath
                   coverage: none
 
@@ -26,8 +26,8 @@ jobs:
               uses: actions/cache@v4
               with:
                   path: vendor
-                  key: composer-${{ hashFiles('composer.lock') }}
-                  restore-keys: composer-
+                  key: composer-php84-${{ hashFiles('composer.lock') }}
+                  restore-keys: composer-php84-
 
             - name: Install Composer dependencies
               run: composer install --no-interaction --prefer-dist --optimize-autoloader
@@ -72,8 +72,8 @@ jobs:
               uses: actions/cache@v4
               with:
                   path: vendor
-                  key: composer-${{ hashFiles('composer.lock') }}
-                  restore-keys: composer-
+                  key: composer-php84-${{ hashFiles('composer.lock') }}
+                  restore-keys: composer-php84-
 
             - name: Install Composer dependencies
               run: composer install --no-interaction --prefer-dist --optimize-autoloader
@@ -103,8 +103,8 @@ jobs:
               uses: actions/cache@v4
               with:
                   path: vendor
-                  key: composer-${{ hashFiles('composer.lock') }}
-                  restore-keys: composer-
+                  key: composer-php84-${{ hashFiles('composer.lock') }}
+                  restore-keys: composer-php84-
 
             - name: Install Composer dependencies
               run: composer install --no-interaction --prefer-dist --optimize-autoloader
