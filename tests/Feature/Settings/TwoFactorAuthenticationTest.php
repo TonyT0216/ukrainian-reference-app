@@ -5,7 +5,7 @@ namespace Tests\Feature\Settings;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Fortify\Features;
-use Livewire\Volt\Volt;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 class TwoFactorAuthenticationTest extends TestCase
@@ -32,7 +32,7 @@ class TwoFactorAuthenticationTest extends TestCase
 
         $this->actingAs($user)
             ->withSession(['auth.password_confirmed_at' => time()])
-            ->get(route('two-factor.show'))
+            ->get(route('two-factor.edit'))
             ->assertOk()
             ->assertSee('Two Factor Authentication')
             ->assertSee('Disabled');
@@ -43,7 +43,7 @@ class TwoFactorAuthenticationTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
-            ->get(route('two-factor.show'));
+            ->get(route('two-factor.edit'));
 
         $response->assertRedirect(route('password.confirm'));
     }
@@ -56,7 +56,7 @@ class TwoFactorAuthenticationTest extends TestCase
 
         $response = $this->actingAs($user)
             ->withSession(['auth.password_confirmed_at' => time()])
-            ->get(route('two-factor.show'));
+            ->get(route('two-factor.edit'));
 
         $response->assertForbidden();
     }
@@ -73,7 +73,7 @@ class TwoFactorAuthenticationTest extends TestCase
 
         $this->actingAs($user);
 
-        $component = Volt::test('settings.two-factor');
+        $component = Livewire::test('settings.two-factor');
 
         $component->assertSet('twoFactorEnabled', false);
 
