@@ -18,7 +18,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.3' # Laravel 12 requires 8.2+; adjust if needed
+                  php-version: '8.4' # Laravel 12 requires 8.2+; adjust if needed
                   extensions: mbstring, pdo_sqlite, zip, bcmath
                   coverage: none
 
@@ -64,7 +64,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.3'
+                  php-version: '8.4'
                   extensions: mbstring
                   coverage: none
 
@@ -95,7 +95,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.3'
+                  php-version: '8.4'
                   extensions: mbstring
                   coverage: none
 
