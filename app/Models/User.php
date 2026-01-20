@@ -2,14 +2,20 @@
 
 namespace App\Models;
 
+use App\Enums\UserType;
+use Filament\Models\Contracts\FilamentUser;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 
-class User extends Authenticatable
+/**
+ * @property UserType $type
+ */
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, TwoFactorAuthenticatable;
@@ -18,9 +24,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'type',
     ];
-
-    protected $guarded = [];
 
     protected $hidden = [
         'password',
@@ -31,17 +36,18 @@ class User extends Authenticatable
 
     protected $table = 'users';
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'type' => UserType::class,
         ];
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return in_array($this->type, [UserType::ADMIN, UserType::EDITOR]) && $this->hasVerifiedEmail();
     }
 
     /**
@@ -54,5 +60,20 @@ class User extends Authenticatable
             ->take(2)
             ->map(fn ($word) => Str::substr($word, 0, 1))
             ->implode('');
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->type->value === UserType::ADMIN->value;
+    }
+
+    public function isEditor(): bool
+    {
+        return $this->type->value === UserType::EDITOR->value;
+    }
+
+    public function isVisitor(): bool
+    {
+        return $this->type->value === UserType::VISITOR->value;
     }
 }
