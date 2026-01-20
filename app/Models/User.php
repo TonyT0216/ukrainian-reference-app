@@ -12,6 +12,9 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 
+/**
+ * @property UserType $type
+ */
 class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -61,16 +64,16 @@ class User extends Authenticatable implements FilamentUser
 
     public function isAdmin(): bool
     {
-        return $this->type === UserType::ADMIN;
+        return $this->type->value === UserType::ADMIN->value;
     }
 
     public function isEditor(): bool
     {
-        return $this->type === UserType::EDITOR;
+        return $this->type->value === UserType::EDITOR->value;
     }
 
     public function isVisitor(): bool
     {
-        return $this->type === UserType::VISITOR;
+        return $this->type->value === UserType::VISITOR->value;
     }
 }

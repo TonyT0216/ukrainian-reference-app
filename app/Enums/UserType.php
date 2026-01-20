@@ -13,7 +13,7 @@ enum UserType: string implements HasColor, HasLabel
     case EDITOR = 'editor';
     case VISITOR = 'visitor';
 
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return match ($this) {
             self::ADMIN => 'Administrator',
@@ -22,7 +22,7 @@ enum UserType: string implements HasColor, HasLabel
         };
     }
 
-    public function getColor(): ?string
+    public function getColor(): string
     {
         return match ($this) {
             self::ADMIN => 'blue',
