@@ -2,7 +2,6 @@
 
 namespace App\Filament\Admin\Resources\Users\Schemas;
 
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Hash;
@@ -28,10 +27,6 @@ class UserForm
                     ->dehydrated(fn (?string $state): bool => filled($state))
                     ->required(fn (string $operation): bool => $operation === 'create')
                     ->maxLength(255),
-                Select::make('type')
-                    ->options(UserType::class)
-                    ->required()
-                    ->default(UserType::VISITOR),
             ]);
     }
 }
