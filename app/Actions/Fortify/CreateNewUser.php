@@ -2,7 +2,6 @@
 
 namespace App\Actions\Fortify;
 
-use App\Enums\UserType;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -30,7 +29,6 @@ class CreateNewUser implements CreatesNewUsers
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => $input['password'],
-            'type' => UserType::VISITOR,
         ]);
     }
 }
