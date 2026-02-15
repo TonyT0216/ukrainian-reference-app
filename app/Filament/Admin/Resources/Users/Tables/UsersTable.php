@@ -2,7 +2,6 @@
 
 namespace App\Filament\Admin\Resources\Users\Tables;
 
-use App\Enums\UserType;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
