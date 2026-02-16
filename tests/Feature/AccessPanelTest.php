@@ -11,11 +11,18 @@ class AccessPanelTest extends TestCase
 {
     use RefreshDatabase;
 
+    private function createUserWithRole(string $role): User
+    {
+        Role::findOrCreate($role);
+        $user = User::factory()->create();
+        $user->assignRole($role);
+
+        return $user;
+    }
+
     public function test_can_access_panel(): void
     {
-        Role::findOrCreate('admin');
-        $user = User::factory()->create();
-        $user->assignRole('admin');
+        $user = $this->createUserWithRole('admin');
         $response = $this->actingAs($user)->get('/admin');
         $response->assertOk();
     }
@@ -29,10 +36,26 @@ class AccessPanelTest extends TestCase
 
     public function test_editor_can_access_panel(): void
     {
-        Role::findOrCreate('editor');
-        $user = User::factory()->create();
-        $user->assignRole('editor');
+        $user = $this->createUserWithRole('editor');
         $response = $this->actingAs($user)->get('/admin');
         $response->assertOk();
+    }
+
+    public function test_admin_can_view_any(): void
+    {
+        $user = $this->createUserWithRole('admin');
+        $this->actingAs($user)->get('/admin/users')->assertOk();
+    }
+
+    public function test_editor_cant_view_any(): void
+    {
+        $user = $this->createUserWithRole('editor');
+        $this->actingAs($user)->get('/admin/users')->assertForbidden();
+    }
+
+    public function test_user_cant_view_any(): void
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user)->get('/admin/users')->assertForbidden();
     }
 }
